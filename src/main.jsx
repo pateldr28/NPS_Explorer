@@ -2,7 +2,19 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
-import App from './App.jsx'
+import './index.css'
+
+import RootLayout from './RootLayout'
+import Home from './routes/Home'
+import States from './routes/States'
+import ParksInState from './routes/ParksInState'
+import ParkDetails from './routes/parkDetails'
+import Planner from './routes/planner'
+import Tracker from './routes/tracker'
+
+
+import parksInStateLoader from './loaders/parksInStateLoader'
+import parkDetailsLoader from './loaders/parkDetailsLoader'
 
 //Note: this is for example only feel free to change/remove 
 
@@ -12,13 +24,40 @@ const queryClient = new QueryClient()
 //Client side routing
 const router = createBrowserRouter([
     {
-        path: "/", 
+        path: '/', 
         //main component
-        Component: App,
+        Component: RootLayout,
         children: [
-            {index: true, Component: Home },
-            {path: "tanstack/states/:stateId", Component: stateDetail},
-            {path: "tanstack/parks/:parkId", Component: parkDetail},
+            {
+              index: true, 
+              Component: Home
+            },
+            { 
+              path: 'states',
+              Component: States
+            },
+            {
+              path: 'states/:stateCode',
+              Component: ParksInState,
+              loader: parksInStateLoader,
+              children: [
+                {
+                  path: 'parks/:parkCode',
+                  Component: ParkDetails,
+                  loader: parkDetailsLoader
+                }
+              ]
+            },
+            {
+              path: 'planner',
+              Component: Planner,
+              // loader: plannerLoader
+            },
+            {
+              path: 'tracker',
+              Component: Tracker,
+              // loader: trackerLoader
+            }
         ]
     }
 ])
