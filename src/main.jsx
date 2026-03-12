@@ -40,13 +40,11 @@ const router = createBrowserRouter([
               path: 'states/:stateCode',
               Component: ParksInState,
               loader: parksInStateLoader,
-              children: [
-                {
-                  path: 'parks/:parkCode',
-                  Component: ParkDetails,
-                  loader: parkDetailsLoader
-                }
-              ]
+            },
+            {
+              path: 'parks/:parkCode',
+              Component: ParkDetails,
+              loader: parkDetailsLoader
             },
             {
               path: 'planner',

@@ -14,7 +14,7 @@ export default function ParksInState() {
       </div>
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {parks?.data?.map((park) => (
-            <Link key={park.id} to={`parks/${park.parkCode}`} 
+            <Link key={park.id} to={`/parks/${park.parkCode}`} 
             className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
             <img src={park.images?.[0]?.url} alt={park.images?.[0]?.altText || park.fullName}
             className="h-48 w-full object-cover"/>
@@ -30,9 +30,6 @@ export default function ParksInState() {
             </Link>
           ))}
       </div>
-      <section>
-        <Outlet />
-      </section>
     </section>
   );
 }
