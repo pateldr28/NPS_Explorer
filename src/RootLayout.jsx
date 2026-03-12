@@ -7,7 +7,7 @@ export default function RootLayout() {
         <div className="min-h-screen bg-[#EAE4D3] text-[#2B2B2B] flex flex-col">
             <Header />
             <Navbar />
-            <main className='flex-1 max-w-6xl mx-auto w-full px-6 py-8'><Outlet /></main>
+            <main className='flex-1 max-w-[1800px] mx-auto w-full px-6 py-8'><Outlet /></main>
         </div>
     )
 }
