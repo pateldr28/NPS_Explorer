@@ -1,35 +1,36 @@
 import { Link, Outlet, useLoaderData } from "react-router-dom";
 import {STATE_NAMES} from "../data/statesData"
 
-const STYLES = {
-  header: "border border-slate-300 bg-slate-100 p-3 text-xl font-semibold",
-  main: "border border-slate-300 bg-white p-3",
-  parkList: "list-disc pl-8",
-  parkDetails: "border border-dashed border-slate-300 bg-slate-100 p-3"
-}
-
-
 export default function ParksInState() {
   const { stateCode, parks } = useLoaderData();
   const stateName = STATE_NAMES[stateCode];
   
   return (
-    <section className=" border border-slate-500 bg-slate-50 p-4">
-      <h1 className={STYLES.header}>
-        Parks in {stateName}
-      </h1>
-      <main className={STYLES.main}>
-        <ul className={STYLES.parkList}>
+    <section className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-semibold text-[#2F4F3A] mb-2">
+          Parks in {stateName}
+        </h1>
+      </div>
+      <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {parks?.data?.map((park) => (
-            <li key={park.id}>
-              <Link to={`parks/${park.parkCode}`} className="underline">
-                {park.name}
-              </Link>
-            </li>
+            <Link key={park.id} to={`parks/${park.parkCode}`} 
+            className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
+            <img src={park.images?.[0]?.url} alt={park.images?.[0]?.altText || park.fullName}
+            className="h-48 w-full object-cover"/>
+            <div className="p-5">
+              <p className="text-stone-500 text-sm mb-2">{park.designation}</p>
+              <h2 className="text-lg font-semibold text-[#2F4F3A] mb-2">
+                {park.fullName}
+              </h2>
+              <p className="text-sm text-stone-600 line-clamp-3">
+                {park.description}
+              </p>
+            </div>
+            </Link>
           ))}
-        </ul>
-      </main>
-      <section className={STYLES.parkDetails}>
+      </div>
+      <section>
         <Outlet />
       </section>
     </section>
