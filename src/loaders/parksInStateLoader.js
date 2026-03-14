@@ -8,5 +8,6 @@ export default async function parksInStateLoader({ params }) {
     const response = await fetch(`https://developer.nps.gov/api/v1/parks?stateCode=${stateCode}&api_key=${apiKey}`)
     const parks = await response.json();
 
+    console.log(parks)
     return { stateCode, parks }
 }
