@@ -1,9 +1,13 @@
 import { Link, Outlet, useLoaderData } from "react-router-dom";
 import {STATE_NAMES} from "../data/statesData"
+import { addParkToPlanner } from "../redux/plannerSlice";
+import { useDispatch } from "react-redux";
 
 export default function ParksInState() {
   const { stateCode, parks } = useLoaderData();
   const stateName = STATE_NAMES[stateCode];
+
+  const dispatch = useDispatch()
   
   return (
     <section className="space-y-8">
@@ -15,8 +19,8 @@ export default function ParksInState() {
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {parks?.data?.map((park) => (
 
-            <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
-              <Link key={park.id} to={`/parks/${park.parkCode}`}>
+            <div key={park.id} className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
+              <Link  to={`/parks/${park.parkCode}`}>
                 <img src={park.images?.[0]?.url} alt={park.images?.[0]?.altText || park.fullName}
                 className="h-48 w-full object-cover"/>
                 <div className="p-5">
@@ -31,7 +35,11 @@ export default function ParksInState() {
               </Link>
               <button 
                 className=" w-50 m-2 rounded-full bg-stone-500 text-white shadow-sm hover:bg-stone-600 transition cursor-pointer"
-                >
+                onClick={() => {
+                  console.log(park)
+                  dispatch(addParkToPlanner({park}))
+                }}>
+                  {/* TODO: Maybe we can switch this to say Added to planner once clicked */}
                   Add to Planner
               </button>
             </div>
