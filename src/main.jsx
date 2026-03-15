@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import {Provider} from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import './index.css'
 
 import RootLayout from './RootLayout'
@@ -11,15 +11,13 @@ import ParksInState from './routes/parksInState'
 import ParkDetails from './routes/parkDetails'
 import Planner from './routes/planner'
 import Tracker from './routes/tracker'
+import store from './redux/store'
 
 
 import parksInStateLoader from './loaders/parksInStateLoader'
 import parkDetailsLoader from './loaders/parkDetailsLoader'
 
 //Note: this is for example only feel free to change/remove 
-
-//Used for executing queries (and mutations)
-const queryClient = new QueryClient()
 
 //Client side routing
 const router = createBrowserRouter([
@@ -62,8 +60,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
             <RouterProvider router={router}/>
-        </QueryClientProvider>
+        </Provider>
     </React.StrictMode>,
 )
