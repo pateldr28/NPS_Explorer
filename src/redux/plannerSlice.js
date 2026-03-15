@@ -17,17 +17,43 @@ export const plannerSlice = createSlice({
                     endDate:""
                 }
             }
-        }
+        },
 
         // updateParkInfoInPlanner(state, action){
         //     //gets the park the user wants to update and changes the field based on that info
         // }
+
+        //add/update priority in planner
+        updatePriority(state, action) {
+            const { id, priority } = action.payload
+            if (state[id]) {
+            //If clicked again, reset else show priority
+                if (state[id].priority === priority) {
+                    state[id].priority = 0
+                } else {
+                    state[id].priority = priority
+                }
+            }
+        },
+
+        //remove park from planner
+        removePark(state, action) {
+            delete state[action.payload.id]
+        },
+
+        //update notes in planner
+        updateNotes(state, action) {
+            const { id, notes } = action.payload
+            if (state[id]) {
+                state[id].notes = notes
+            }
+        }
     }
 
 })
 
 export const selectPlannedParks = (state) => state.plannedParks
 
-export const {addParkToPlanner} = plannerSlice.actions
+export const {addParkToPlanner, removePark, updatePriority, updateNotes} = plannerSlice.actions
 
 export default plannerSlice.reducer
