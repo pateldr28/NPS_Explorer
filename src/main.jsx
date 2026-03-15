@@ -16,6 +16,9 @@ import store from './redux/store'
 
 import parksInStateLoader from './loaders/parksInStateLoader'
 import parkDetailsLoader from './loaders/parkDetailsLoader'
+import parkSearchLoader from './loaders/parkSearchLoader'
+import SearchParks from './routes/searchParks'
+import ErrorPage from './routes/errorPage'
 
 //Note: this is for example only feel free to change/remove 
 
@@ -38,6 +41,12 @@ const router = createBrowserRouter([
               path: 'states/:stateCode',
               Component: ParksInState,
               loader: parksInStateLoader,
+            },
+            {
+              path:'searchParks/:parkQuery?',
+              Component:SearchParks,
+              loader:parkSearchLoader,
+              ErrorBoundary:ErrorPage
             },
             {
               path: 'parks/:parkCode',
