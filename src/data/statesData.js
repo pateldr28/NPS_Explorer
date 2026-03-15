@@ -7,6 +7,7 @@ export const STATES = [
   { code: "CO", name: "Colorado" },
   { code: "CT", name: "Connecticut" },
   { code: "DE", name: "Delaware" },
+  {code: "DC", name: "Washington, D.C."},
   { code: "FL", name: "Florida" },
   { code: "GA", name: "Georgia" },
   { code: "HI", name: "Hawaii" },
@@ -48,7 +49,7 @@ export const STATES = [
   { code: "WA", name: "Washington" },
   { code: "WV", name: "West Virginia" },
   { code: "WI", name: "Wisconsin" },
-  { code: "WY", name: "Wyoming" }
+  { code: "WY", name: "Wyoming" },
 ];
 
 export const STATE_NAMES = Object.fromEntries(
