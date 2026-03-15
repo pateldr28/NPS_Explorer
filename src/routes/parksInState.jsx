@@ -46,7 +46,7 @@ export default function ParksInState() {
                 </div>
               </Link>
               <button
-                className="w-35 m-2 rounded-full bg-stone-500 text-white shadow-sm hover:bg-stone-600 transition cursor-pointer"
+                className={`w-40 m-2 rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isSelected ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
                 onClick={() => {
                   console.log(park)
                   dispatch(addParkToPlanner({ park }))
