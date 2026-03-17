@@ -41,11 +41,11 @@ export default function Home() {
         <hr className="boarder-stone-300 my-12" />
         <section className="mt-20">
           <h2 className="text-2xl font-semibold text-[#2F4F3A] mb-6">
-            Featured National Parks
+            Featured Park Videos
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow lg transition">
-              <img src="https://plus.unsplash.com/premium_photo-1700182582584-7411ec09675e?q=80&w=1170&auto=format&fit=crop"
+              <iframe src="https://plus.unsplash.com/premium_photo-1700182582584-7411ec09675e?q=80&w=1170&auto=format&fit=crop"
               className="h-65 w-full object-cover"/>
               <div className="p-4">
                 <h3 className="font-semibold text-lg">Yosemite</h3>
