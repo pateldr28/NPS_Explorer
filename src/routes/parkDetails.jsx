@@ -27,14 +27,14 @@ export default function ParkDetails() {
             {parkDetails.addresses?.[0]?.line1 || "Not available"}
           </p>
 
-          <div className="bg-stone-50 rounded border-stone-200 p-5 ">
+          <div className="bg-stone-50 rounded border border-stone-200 p-5 ">
             <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
               Things to Do
             </h2>
-            <p className="flex flex-wrap text-stone-700">
+            <p className="flex flex-wrap text-stone-700 mt-2 gap-2">
               {parkDetails.activities?.map((activity) =>
-              <span key={activity.id} className="px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm mx-2 mb-8"> 
-              {activity.name}
+              <span key={activity.id} className="px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm"> 
+              {activity.name} 
               </span>)}
             </p>
           </div>
@@ -46,7 +46,47 @@ export default function ParkDetails() {
               {parkDetails.weatherInfo}
             </p>
           </div>
-          <div className="bg-stone-50 rounded border-stone-200 p-5">
+            <div className="bg-stone-50 rounded border border-stone-200 p-5">
+            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
+              Amenities
+            </h2>
+            <p className="text-stone-700">
+              {parkDetails.amenities}
+            </p>
+          </div>
+           <div className="bg-stone-50 rounded border border-stone-200 p-5">
+            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
+              Campgrounds
+            </h2>
+            <p className="text-stone-700">
+              
+            </p>
+          </div>
+           <div className="bg-stone-50 rounded border border-stone-200 p-5">
+            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
+              Events
+            </h2>
+            <p className="text-stone-700">
+
+            </p>
+          </div>
+          <div className="bg-stone-50 rounded border border-stone-200 p-5">
+            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
+              Places
+            </h2>
+            <p className="text-stone-700">
+
+            </p>
+          </div>
+          <div className="bg-stone-50 rounded border border-stone-200 p-5">
+            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
+              Tours
+            </h2>
+            <p className="text-stone-700">
+
+            </p>
+          </div>
+          <div className="bg-stone-50 rounded border border-stone-200 p-5">
             <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
               Directions
             </h2>
