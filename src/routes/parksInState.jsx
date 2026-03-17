@@ -20,6 +20,7 @@ export default function ParksInState() {
         </h1>
       </div>
 
+      {/* Display 2 cols if smaller, 3 if full page */}
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
         {parks?.data?.map((park) => {
           const isSelected = plannedParks[park.id] !== undefined
@@ -29,6 +30,7 @@ export default function ParksInState() {
               key={park.id}
               className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
 
+              {/* Contains name, image, designation, description, clicking on link directs to park page */}
               <Link to={`/parks/${park.parkCode}`}>
                 <img
                   src={park.images?.[0]?.url}
@@ -45,6 +47,7 @@ export default function ParksInState() {
                   </p>
                 </div>
               </Link>
+              {/* Planner button, default id "Add to planner", if clicked, display "Added to planner" */}
               <button
                 className={`w-40 m-2 rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isSelected ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
                 onClick={() => {
