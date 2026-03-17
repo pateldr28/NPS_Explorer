@@ -4,12 +4,7 @@ import { useLoaderData } from "react-router-dom"
 export default function ParkDetails() {
   const parkRes = useLoaderData()
   const parkDetails = parkRes.data[0]
-  const [campgrounds, setCampgrounds] = useState([])
-  const [events, setEvents] = useState([])
-  const [places, setPlaces] = useState([])
-  const [tours, setTours] = useState([])
-  const [amenities, setAmenities] = useState([])
-  const [alerts, setAlerts] = useState([])
+
   //https://www.nps.gov/subjects/developer/api-documentation.htm#/amenities
   //https://www.nps.gov/subjects/developer/api-documentation.htm#/campgrounds
   //https://www.nps.gov/subjects/developer/api-documentation.htm#/tours
@@ -18,66 +13,13 @@ export default function ParkDetails() {
 
   //06 - Communicating with an HTTP API
 
-  const apiKey = import.meta.env.VITE_NPS_API_KEY 
-
-
   //The component mounts, triggering useEffect.
   //The Effect loads data from api and updates state.
   //The state update triggers a re-render.
   //The component re-renders, displaying the fetched data.
-
-  useEffect(() => {
-    //send HTTP requests for campground, events, alerts, tours, places, and amentities
-    async function fetchRest() {
-      //get park code 
-      const parkCode = parkDetails.parkCode
-
-      //request campground data from NPS API
-      const camp = await fetch(
-        `https://developer.nps.gov/api/v1/campgrounds?parkCode=${parkCode}&api_key=${apiKey}`
-      )
-      const campInfo = await camp.json()
-      //save data in state
-      setCampgrounds(campInfo.data || [] )
-
-      //Event
-      const event = await fetch(
-        `https://developer.nps.gov/api/v1/events?parkCode=${parkCode}&api_key=${apiKey}`
-      )
-       const eventInfo = await event.json()
-      setEvents(eventInfo.data || [] )
-
-      //Places
-      const place = await fetch(
-        `https://developer.nps.gov/api/v1/places?parkCode=${parkCode}&api_key=${apiKey}`
-      )
-      const placesInfo = await place.json()
-      setPlaces(placesInfo.data || [] )
-
-      //Tours
-      const tour = await fetch(
-        `https://developer.nps.gov/api/v1/tours?parkCode=${parkCode}&api_key=${apiKey}`
-      )
-      const toursInfo = await tour.json()
-      setTours(toursInfo.data || [] )
-
-      //Amenities
-      const amenity = await fetch(
-        `https://developer.nps.gov/api/v1/amenities?parkCode=${parkCode}&api_key=${apiKey}`
-      )
-      const amenityInfo = await amenity.json()
-      setAmenities(amenityInfo.data || [] )
-
-      //Alerts
-      const alert = await fetch(
-        `https://developer.nps.gov/api/v1/alerts?parkCode=${parkCode}&api_key=${apiKey}`
-      )
-      const alertInfo = await alert.json()
-      setAlerts(alertInfo.data || [] )
-
-    }
-    fetchRest()
-  }, [parkDetails.parkCode])
+  
+  //send HTTP requests for campground, events, alerts, tours, places, and amentities
+  
 
   return (
     <section className="space-y-8">
