@@ -31,7 +31,7 @@ export default function ParkDetails() {
             <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
               Things to Do
             </h2>
-            <p className="flex flex-wrap text-stone-700">
+            <p className="flex flex-wrap text-stone-700 mt-2 gap-2">
               {parkDetails.activities?.map((activity) =>
               <span key={activity.id} className="px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm"> 
               {activity.name} 
