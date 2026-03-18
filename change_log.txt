@@ -10,10 +10,17 @@ parksInState, states, searchParks UI only functionality for cards on home page d
 3/14/2026: Savhanna - Updated parksInState to have a button that adds to the planner and changes to added to planner when selected. Worked on planner page, 
 ui to add parks to planner, notes, set priority, remove from planner button, and click on link of park to be directed to that park. UI needs feedback for any changes needed.
 
-3/16/2026: Savhanna - Added comments, removed unused button component, added campgrounds, events, places, tours,amenitites, and alerts to parkDetails page. Only displays if there is information provided by the api. 
+3/16/2026: Savhanna - Added comments, removed unused button component, added campgrounds, events, places, tours, amenitites, and alerts to parkDetails page. Only displays if there is information provided by the api. 
 
 3/17/2026: Travis - Completed API requests and implemented info visualization with a focus on simplicity and usability.
 * Created parksService for centralized API request abstraction.
 * Built out expandable panels for alerts, events, tours, campgrounds, amenities, etc.
 * Implemented lazy loading for heavier data (events, tours, etc.) — only fetch on first open
 * Created a map + marker selection UX (click to view, click map to clear) for places in a park
+
+3/17/2026: Savhanna - Updated the UI for ExpandablePanel to fix overflow, updated the following files:
+plannedPark - added dates for planner, image to cards, overall UI improvements
+PlannerSlice - added start and end for dates.
+home - fixed spacing.
+parksInState - updated the UI
+planner - changed title of Planner to Your Planner for a more personalized view
