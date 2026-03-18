@@ -3,8 +3,8 @@ import { STATE_NAMES } from "../data/statesData"
 import { addParkToPlanner, selectPlannedParks } from "../redux/plannerSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-  //https://tailwindcss.com/
-  //https://tailwindcss.com/docs/colors
+//https://tailwindcss.com/
+//https://tailwindcss.com/docs/colors
 
 export default function ParksInState() {
   const { stateCode, parks } = useLoaderData();
@@ -28,18 +28,18 @@ export default function ParksInState() {
           return (
             <div
               key={park.id}
-              className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
+              className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition flex flex-col h-full">
 
               {/* Contains name, image, designation, description, clicking on link directs to park page */}
-              <Link to={`/parks/${park.parkCode}`}>
+              <Link to={`/parks/${park.parkCode}`} className="flex flex-col flex-1">
                 <img
                   src={park.images?.[0]?.url}
                   alt={park.images?.[0]?.altText || park.fullName}
                   className="h-48 w-full object-cover"
                 />
-                <div className="p-5">
+                <div className="p-5 flex-1">
                   <p className="text-stone-500 text-sm mb-2">{park.designation}</p>
-                  <h2 className="text-lg font-semibold text-[#2F4F3A] mb-2">
+                  <h2 className="text-lg font-semibold text-[#2F4F3A] mb-2 hover:underline">
                     {park.fullName}
                   </h2>
                   <p className="text-sm text-stone-600 line-clamp-3">
@@ -49,7 +49,7 @@ export default function ParksInState() {
               </Link>
               {/* Planner button, default id "Add to planner", if clicked, display "Added to planner" */}
               <button
-                className={`w-40 m-2 rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isSelected ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
+                className={`w-40 m-2 mt-auto rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isSelected ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
                 onClick={() => {
                   console.log(park)
                   dispatch(addParkToPlanner({ park }))

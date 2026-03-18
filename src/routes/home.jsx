@@ -9,7 +9,7 @@ export default function Home() {
           <h2 className="text-2xl font-semibold text-[#2F4F3A]">
             Start Exploring
           </h2>
-          <p className="text-stone-700 max-w-2xl">
+          <p className="text-stone-700 max-w-2xl mt-4">
             Browse parks by state, learn more about each park, plan your trips, and 
             track the places that you have visited.
           </p>
