@@ -27,7 +27,7 @@ export default function ExpandablePanel({
   }
 
   return (
-    <section className="rounded-xl border bg-stone-50">
+    <section className="rounded-xl border bg-stone-50 overflow-hidden">
       <button
         type="button"
         onClick={handleToggle}
