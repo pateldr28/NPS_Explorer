@@ -8,6 +8,9 @@ import ParkEvents from "../components/ParkEvents";
 import ParkAmenities from "../components/ParkAmenities";
 import ParkCampgrounds from "../components/ParkCampgrounds";
 import ParkTours from "../components/ParkTours";
+import { useDispatch, useSelector } from "react-redux";
+import { addParkToPlanner, selectPlannedParks } from "../redux/plannerSlice";
+import { useNavigate } from "react-router";
 
 const styles = {
   PAGE: "space-y-8",
@@ -56,6 +59,10 @@ const styles = {
 
 export default function ParkDetails() {
   const { details, alerts, places } = useLoaderData();
+  const dispatch = useDispatch()
+  const plannedParks = useSelector(selectPlannedParks)
+  const isSelected = plannedParks[details.id] !== undefined;
+  const navigate = useNavigate()
 
   // ---- Location ----
 
@@ -188,12 +195,33 @@ export default function ParkDetails() {
               <p className={styles.SIDEBAR_LABEL}>Plan Your Visit</p>
 
               <div className={styles.SIDEBAR_ACTIONS}>
+              
+              <button
+                className={styles.PRIMARY_LINK}
+                onClick={() => {
+                  console.log(details)
+                  dispatch(addParkToPlanner({ park:details }))
+                  navigate("../planner")
+                }}
+                  disabled={isSelected}>
+                  {isSelected ? "Added to planner" : "Add to planner"}
+              </button>
+
+                <button
+                className={styles.SECONDARY_LINK}
+                onClick={() => {
+                  console.log(details)
+                  //dispatch(addParkToPlanner({ park:details }))
+                }}>
+                  Mark on Tracker
+              </button>
+
                 {details.url && (
                   <a
                     href={details.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={styles.PRIMARY_LINK}
+                    className={styles.SECONDARY_LINK}
                   >
                     Visit official park page
                   </a>
