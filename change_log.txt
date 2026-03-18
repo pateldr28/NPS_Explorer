@@ -2,6 +2,8 @@ Log:
 
 3/4/2026: Savhanna - Set up initial repository, needs restructuring from team.
 
+3/6/2025: Travis - Set up initial routing and API integration logic. 
+
 3/7-11/2026: Savhanna - Working on components: button, card, errorContainer, header, navbar. Worked with Travis on routes pages: home, parksInDetail, 
 parksInState, states, searchParks UI only functionality for cards on home page do not currently work, same with search.
 
@@ -9,3 +11,9 @@ parksInState, states, searchParks UI only functionality for cards on home page d
 ui to add parks to planner, notes, set priority, remove from planner button, and click on link of park to be directed to that park. UI needs feedback for any changes needed.
 
 3/16/2026: Savhanna - Added comments, removed unused button component, added campgrounds, events, places, tours,amenitites, and alerts to parkDetails page. Only displays if there is information provided by the api. 
+
+3/17/2026: Travis - Completed API requests and implemented info visualization with a focus on simplicity and usability.
+* Created parksService for centralized API request abstraction.
+* Built out expandable panels for alerts, events, tours, campgrounds, amenities, etc.
+* Implemented lazy loading for heavier data (events, tours, etc.) — only fetch on first open
+* Created a map + marker selection UX (click to view, click map to clear) for places in a park
