@@ -1,11 +1,19 @@
-const apiKey = import.meta.env.VITE_NPS_API_KEY
+// get park details, getParkAlerts, getParkActivities
 
-export default function parkDetailsLoader({ params }) {
-    console.log("== loader is running")
+import parkService from "../api/parkService.js";
 
-    const park = params.parkCode;
+export default async function parkDetailsLoader({ params }) {
+  console.log("== loader is running");
 
-    // fetch returns an http response wrapped in a promise, so we directly return
-    // react router will deal with the promise for us
-    return fetch(`https://developer.nps.gov/api/v1/parks?parkCode=${park}&api_key=${apiKey}`)
+  const parkCode = params.parkCode;
+
+  const [details, alerts, places] = await Promise.all([
+    parkService.getParkDetails(parkCode),
+    parkService.getParkAlerts(parkCode),
+    parkService.getParkPlaces(parkCode),
+  ]);
+
+  console.log("=== Park Details:", details);
+
+  return { details, alerts, places };
 }

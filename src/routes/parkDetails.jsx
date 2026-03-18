@@ -1,190 +1,271 @@
-import { useEffect, useState } from "react"
-import { useLoaderData } from "react-router-dom"
+import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import parkService from "../api/parkService";
+import ParkAlerts from "../components/ParkAlerts";
+import ExpandablePanel from "../components/ExpandablePanel";
+import ParkPlaces from "../components/ParkPlaces";
+import ParkEvents from "../components/ParkEvents";
+import ParkAmenities from "../components/ParkAmenities";
+import ParkCampgrounds from "../components/ParkCampgrounds";
+import ParkTours from "../components/ParkTours";
+
+const styles = {
+  PAGE: "space-y-8",
+  CARD: "overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm",
+  HERO: "relative",
+  HERO_IMAGE: "h-80 w-full object-cover md:h-[26rem]",
+  HERO_FALLBACK:
+    "h-80 w-full bg-gradient-to-br from-[#2F4F3A] via-[#5D7A62] to-[#A9B88E] md:h-[26rem]",
+  HERO_OVERLAY:
+    "absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent",
+  HERO_CONTENT: "absolute inset-x-0 bottom-0 p-6 md:p-8",
+  HERO_BADGES: "flex flex-wrap gap-2",
+  HERO_BADGE:
+    "rounded-full bg-white/15 px-3 py-1 text-xs font-medium tracking-wide text-white backdrop-blur-sm",
+  HERO_TITLE: "mt-4 max-w-4xl text-3xl font-semibold text-white md:text-4xl",
+  HERO_CAPTION: "mt-3 max-w-3xl text-sm leading-6 text-stone-200",
+
+  CONTENT: "space-y-8 p-6 md:p-8",
+
+  OVERVIEW_GRID: "grid gap-6 xl:grid-cols-[minmax(0,1fr)_18rem]",
+  OVERVIEW_TEXT_WRAP: "space-y-4",
+  OVERVIEW_TEXT: "text-lg leading-8 text-stone-700",
+  TOPICS_WRAP: "flex flex-wrap gap-2",
+  TOPIC_BADGE:
+    "rounded-full border border-stone-200 bg-stone-50 px-3 py-1 text-xs font-medium uppercase tracking-wide text-stone-600",
+
+  SIDEBAR: "rounded-2xl border border-stone-200 bg-stone-50 p-5 shadow-sm",
+  SIDEBAR_LABEL:
+    "text-xs font-semibold uppercase tracking-[0.2em] text-stone-500",
+  SIDEBAR_ACTIONS: "mt-5 space-y-3",
+  PRIMARY_LINK:
+    "inline-flex w-full items-center justify-center rounded-full bg-[#2F4F3A] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#26412f]",
+  SECONDARY_LINK:
+    "inline-flex w-full items-center justify-center rounded-full border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:border-stone-400 hover:bg-stone-100",
+
+  INFO_CARD: "rounded-2xl border border-stone-200 bg-stone-50 p-5 shadow-sm",
+  INFO_ROW: "flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between",
+  INFO_TEXT_WRAP: "max-w-3xl",
+  SECTION_TITLE: "mb-3 text-lg font-semibold text-[#2F4F3A]",
+  BODY_TEXT: "leading-7 text-stone-700",
+
+  ADDRESS_CARD:
+    "min-w-0 rounded-2xl border border-stone-200 bg-white p-4 lg:max-w-sm",
+  ADDRESS: "mt-3 space-y-1 text-sm not-italic leading-6 text-stone-700",
+};
 
 export default function ParkDetails() {
-  const parkRes = useLoaderData()
-  const parkDetails = parkRes.data[0]
+  const { details, alerts, places } = useLoaderData();
 
-  //https://www.nps.gov/subjects/developer/api-documentation.htm#/amenities
-  //https://www.nps.gov/subjects/developer/api-documentation.htm#/campgrounds
-  //https://www.nps.gov/subjects/developer/api-documentation.htm#/tours
-  //https://www.nps.gov/subjects/developer/api-documentation.htm#/events/
-  //https://www.nps.gov/subjects/developer/api-documentation.htm#/alerts
+  // ---- Location ----
 
-  //06 - Communicating with an HTTP API
+  const parkCoordinates = [Number(details.latitude), Number(details.longitude)];
 
-  //The component mounts, triggering useEffect.
-  //The Effect loads data from api and updates state.
-  //The state update triggers a re-render.
-  //The component re-renders, displaying the fetched data.
-  
-  //send HTTP requests for campground, events, alerts, tours, places, and amentities
-  
+  const primaryAddress =
+    details.addresses?.find((address) => address.type === "Physical") ||
+    details.addresses?.[0];
+
+  const cityStateZip = [
+    primaryAddress?.city,
+    primaryAddress?.stateCode,
+    primaryAddress?.postalCode,
+  ]
+    .filter(Boolean)
+    .join(", ")
+    .replace(/, ([^,]+)$/, " $1");
+
+  // ---- Entrance Fee ----
+
+  const entranceFee = details.entranceFees?.[0]?.cost;
+  const entranceFeeLabel =
+    entranceFee && entranceFee !== "0.00"
+      ? `Entry from $${entranceFee}`
+      : entranceFee === "0.00"
+        ? "Free entry"
+        : null;
+
+  const topics = details.topics?.slice(0, 4) || [];
+
+  // ---- State Management ----
+
+  const [events, setEvents] = useState([]);
+  const [tours, setTours] = useState([]);
+  const [campgrounds, setCampgrounds] = useState([]);
+  const [amenities, setAmenities] = useState([]);
+
+  async function loadEvents() {
+    try {
+      const data = await parkService.getParkEvents(details.parkCode);
+      setEvents(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadTours() {
+    try {
+      const data = await parkService.getParkTours(details.parkCode);
+      setTours(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadCampgrounds() {
+    try {
+      const data = await parkService.getParkCampgrounds(details.parkCode);
+      setCampgrounds(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadAmenities() {
+    try {
+      const data = await parkService.getParkAmenities(details.parkCode);
+      setAmenities(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // ---- UI ----
 
   return (
-    <section className="space-y-8">
-      <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-lg transition">
-        <img src={parkDetails.images?.[0]?.url} alt={parkDetails.images?.[0]?.altText || parkDetails.fullName}
-            className="h-72 w-full object-cover"
-        />
-        <div className="p-8 space-y-8">
-          <div>
-            {/* National Park | STATE abbrev */}
-            <p className="text-sm text-stone-500 mb-2">
-              {parkDetails.designation} | {parkDetails.states}
-            </p>
-            <h1 className="text-3xl font-semibold text-[#2F4F3A]">
-              {parkDetails.fullName}
-            </h1>
-          </div>
-          <p className="text-stone-700 leading-7">
-            {parkDetails.description}
-          </p>
-          {parkDetails.addresses?.length > 0 && (
-          <p>
-            <span className="font-medium ">Address: </span>{" "}
-            {parkDetails.addresses?.[0]?.line1}
-          </p>
+    <section className={styles.PAGE}>
+      <div className={styles.CARD}>
+        <div className={styles.HERO}>
+          {details.images?.[0]?.url ? (
+            <img
+              src={details.images[0].url}
+              alt={details.images[0].altText || details.fullName}
+              className={styles.HERO_IMAGE}
+            />
+          ) : (
+            <div className={styles.HERO_FALLBACK} />
           )}
 
-          {/* Activities */}
-          {parkDetails.activities.length > 0 && (
-          <div className="bg-stone-50 rounded border border-stone-200 p-5 ">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Things to Do
-            </h2>
-            <p className="flex flex-wrap text-stone-700 mt-2 gap-2">
-              {parkDetails.activities?.map((activity) =>
-              <span key={activity.id} className="px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm"> 
-              {activity.name} 
-              </span>)}
-            </p>
-          </div>
-          )}
+          <div className={styles.HERO_OVERLAY} />
 
-          {/* Alerts */}
-          {alerts.length > 0 && (
-            <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Alerts
-            </h2>
-            <p className="text-stone-700">
-              {alerts.map((alert) => (
-                  <p key={alert.id} className="text-stone-700">
-                    {alert.title || alert.name}
-                  </p>
-                ))}
-            </p>
-          </div>
-          )}
+          <div className={styles.HERO_CONTENT}>
+            <div className={styles.HERO_BADGES}>
+              <span className={styles.HERO_BADGE}>{details.designation}</span>
+              <span className={styles.HERO_BADGE}>{details.states}</span>
+              {entranceFeeLabel && (
+                <span className={styles.HERO_BADGE}>{entranceFeeLabel}</span>
+              )}
+            </div>
 
-          {/* Weather */}
-          <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Weather
-            </h2>
-            <p className="text-stone-700">
-              {parkDetails.weatherInfo}
-            </p>
+            <h1 className={styles.HERO_TITLE}>{details.fullName}</h1>
+
+            {details.images?.[0]?.caption && (
+              <p className={styles.HERO_CAPTION}>{details.images[0].caption}</p>
+            )}
           </div>
-            
-          {/* Campgrounds */}
-          {campgrounds.length > 0 && (
-            <div className="bg-stone-50 rounded border border-stone-200 p-5">
-              <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-                Campgrounds
-              </h2>
-              <div className="text-stone-700 space-y-2">
-                {campgrounds.map((campground) => (
-                  <div key={campground.id}>
-                    <p className="text-stone-800 font-semibold">
-                      {campground.name}
-                    
-                    </p>
-                    <p className="text-stone-700">
-                      {campground.description}
-                    </p>
-                  </div>
-                ))}
+        </div>
+
+        <div className={styles.CONTENT}>
+          <ExpandablePanel title="Alerts" defaultOpen>
+            <ParkAlerts alerts={alerts} />
+          </ExpandablePanel>
+
+          <div className={styles.OVERVIEW_GRID}>
+            <div className={styles.OVERVIEW_TEXT_WRAP}>
+              <p className={styles.OVERVIEW_TEXT}>{details.description}</p>
+
+              {topics.length > 0 && (
+                <div className={styles.TOPICS_WRAP}>
+                  {topics.map((topic) => (
+                    <span key={topic.id} className={styles.TOPIC_BADGE}>
+                      {topic.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <aside className={styles.SIDEBAR}>
+              <p className={styles.SIDEBAR_LABEL}>Plan Your Visit</p>
+
+              <div className={styles.SIDEBAR_ACTIONS}>
+                {details.url && (
+                  <a
+                    href={details.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.PRIMARY_LINK}
+                  >
+                    Visit official park page
+                  </a>
+                )}
+
+                {details.directionsUrl && (
+                  <a
+                    href={details.directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.SECONDARY_LINK}
+                  >
+                    Open directions
+                  </a>
+                )}
               </div>
-            </div>
-          )}
-
-          {/* Events */}
-          {events.length > 0 && (
-            <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Events
-            </h2>
-            <div className="text-stone-700">
-              {events.map((event) => (
-                  <p key={event.id} className="text-stone-700">
-                    {event.title}
-                  </p>
-                ))}
-            </div>
+            </aside>
           </div>
-          )}
 
-          {/* Tours */}
-          {tours.length > 0 && (
-            <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Tours
-            </h2>
-            <div className="text-stone-700">
-              {tours.map((tour) => (
-                  <p key={tour.id} className="text-stone-700">
-                    {tour.title || tour.name}
-                  </p>
-                ))}
+          <div className={styles.INFO_CARD}>
+            <div className={styles.INFO_ROW}>
+              <div className={styles.INFO_TEXT_WRAP}>
+                <h2 className={styles.SECTION_TITLE}>Directions</h2>
+                <p className={styles.BODY_TEXT}>
+                  {details.directionsInfo ||
+                    "Directions information is not available for this park."}
+                </p>
+              </div>
+
+              {primaryAddress && (
+                <div className={styles.ADDRESS_CARD}>
+                  <p className={styles.SIDEBAR_LABEL}>Primary Address</p>
+                  <address className={styles.ADDRESS}>
+                    {primaryAddress.line1 && <p>{primaryAddress.line1}</p>}
+                    {primaryAddress.line2 && <p>{primaryAddress.line2}</p>}
+                    {cityStateZip && <p>{cityStateZip}</p>}
+                  </address>
+                </div>
+              )}
             </div>
           </div>
-          )}
 
-          {/* Places */}
-          {places.length > 0 && (
-            <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Places
-            </h2>
-            <div className="text-stone-700">
-              {places.map((place) => (
-                  <p key={place.id} className="text-stone-700">
-                    {place.title || place.name}
-                  </p>
-                ))}
+          <ExpandablePanel title="Map and Landmarks" defaultOpen>
+            <ParkPlaces parkCoordinates={parkCoordinates} places={places} />
+          </ExpandablePanel>
+
+          <ExpandablePanel title="Upcoming Events" onOpen={loadEvents}>
+            <ParkEvents events={events} />
+          </ExpandablePanel>
+
+          <ExpandablePanel title="Tours" onOpen={loadTours}>
+            <ParkTours tours={tours} />
+          </ExpandablePanel>
+
+          <ExpandablePanel title="Campgrounds" onOpen={loadCampgrounds}>
+            <ParkCampgrounds campgrounds={campgrounds} />
+          </ExpandablePanel>
+
+          <ExpandablePanel title="Climate">
+            <div className={styles.INFO_CARD}>
+              <p className={styles.BODY_TEXT}>
+                {details.weatherInfo ||
+                  "Climate information is not available for this park."}
+              </p>
             </div>
-          </div>
-          )}
+          </ExpandablePanel>
 
-          {/* Amentities */}
-          {amenities.length > 0 && (
-            <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Amenities
-            </h2>
-            <div className="text-stone-700">
-              {amenities.map((amentity) => (
-                  <p key={amentity.id} className="text-stone-700">
-                    {amentity.title || amentity.name}
-                  </p>
-                ))}
-            </div>
-          </div>
-          )}
-
-          {/* Directions */}
-          <div className="bg-stone-50 rounded border border-stone-200 p-5">
-            <h2 className="text-lg font-semibold text-[#2F4F3A] mb-3">
-              Directions
-            </h2>
-            <p className="text-stone-700">
-              {parkDetails.directionsInfo}
-            </p>
-          </div>
+          <ExpandablePanel title="Amenities" onOpen={loadAmenities}>
+            <ParkAmenities amenities={amenities} />
+          </ExpandablePanel>
         </div>
       </div>
     </section>
-  )
+  );
 }
