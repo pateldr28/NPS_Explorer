@@ -26,3 +26,5 @@ PlannerSlice - added start and end for dates.
 home - fixed spacing.
 parksInState - updated the UI
 planner - changed title of Planner to Your Planner for a more personalized view
+
+3/18/26: Dristi: Implemented random featured videos on the home screen and added data loader to get multimedia videos for the feature.
