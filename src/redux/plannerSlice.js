@@ -66,7 +66,5 @@ export const plannerSlice = createSlice({
 })
 
 export const selectPlannedParks = (state) => state.plannedParks
-
 export const {addParkToPlanner, removePark, updatePriority, updateNotes, start, end} = plannerSlice.actions
-
 export default plannerSlice.reducer

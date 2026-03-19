@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { STATE_NAMES } from "../data/statesData"
 import { addParkToPlanner, selectPlannedParks } from "../redux/plannerSlice";
+import { addParkToTracker, trackedParks } from "../redux/trackerSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 //https://tailwindcss.com/
@@ -10,6 +11,7 @@ export default function ParksInState() {
   const { stateCode, parks } = useLoaderData();
   const stateName = STATE_NAMES[stateCode];
   const plannedParks = useSelector(selectPlannedParks)
+  const trackedParksList = useSelector(trackedParks)
   const dispatch = useDispatch()
 
   return (
@@ -24,6 +26,7 @@ export default function ParksInState() {
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
         {parks?.data?.map((park) => {
           const isSelected = plannedParks[park.id] !== undefined
+          const isTracked = trackedParksList[park.id] !== undefined
 
           return (
             <div
@@ -48,15 +51,28 @@ export default function ParksInState() {
                 </div>
               </Link>
               {/* Planner button, default id "Add to planner", if clicked, display "Added to planner" */}
-              <button
-                className={`w-40 m-2 mt-auto rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isSelected ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
-                onClick={() => {
-                  console.log(park)
-                  dispatch(addParkToPlanner({ park }))
-                }}
-                disabled={isSelected}>
-                {isSelected ? "Added to planner" : "Add to planner"}
-              </button>
+              <div className="flex gap-2 shrink-0">
+                <button
+                  className={`w-40 m-2 mt-auto rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isSelected ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
+                  onClick={() => {
+                    console.log(park)
+                    dispatch(addParkToPlanner({ park }))
+                  }}
+                  disabled={isSelected}>
+                  {isSelected ? "Added to planner" : "Add to planner"}
+                </button>
+
+                <button
+                  className={`w-40 m-2 mt-auto rounded-full text-white shadow-sm hover:bg-stone-600 transition cursor-pointer ${isTracked ?  "bg-[#2F4F3A]" : "bg-stone-600"}`}
+                  onClick={() => {
+                    console.log(park)
+                    //dispatch(addParkToPlanner({ park }))
+                    dispatch(addParkToTracker({park}))
+                  }}
+                  disabled={isTracked}>
+                  {isTracked ? "Added to tracker" : "Add to tracker"}
+                </button>
+              </div>
             </div>
           )
         })}
