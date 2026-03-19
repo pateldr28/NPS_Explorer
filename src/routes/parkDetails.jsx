@@ -11,6 +11,7 @@ import ParkTours from "../components/ParkTours";
 import { useDispatch, useSelector } from "react-redux";
 import { addParkToPlanner, selectPlannedParks } from "../redux/plannerSlice";
 import { useNavigate } from "react-router";
+import { addParkToTracker, trackedParks } from "../redux/trackerSlice";
 
 const styles = {
   PAGE: "space-y-8",
@@ -61,8 +62,9 @@ export default function ParkDetails() {
   const { details, alerts, places } = useLoaderData();
   const dispatch = useDispatch()
   const plannedParks = useSelector(selectPlannedParks)
+  const trackedParksList = useSelector(trackedParks)
   const isSelected = plannedParks[details.id] !== undefined;
-  const navigate = useNavigate()
+  const isTracked = trackedParksList[details.id] !== undefined
 
   // ---- Location ----
 
@@ -201,19 +203,20 @@ export default function ParkDetails() {
                 onClick={() => {
                   console.log(details)
                   dispatch(addParkToPlanner({ park:details }))
-                  navigate("../planner")
+                  //navigate("../planner")
                 }}
                   disabled={isSelected}>
                   {isSelected ? "Added to planner" : "Add to planner"}
               </button>
 
-                <button
+              <button
                 className={styles.SECONDARY_LINK}
                 onClick={() => {
                   console.log(details)
                   //dispatch(addParkToPlanner({ park:details }))
+                  dispatch(addParkToTracker({ park:details }))
                 }}>
-                  Mark on Tracker
+                  {isTracked ? "Added to Tracker" : "Add to Tracker"}
               </button>
 
                 {details.url && (

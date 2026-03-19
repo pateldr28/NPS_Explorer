@@ -1,9 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit"
 import plannerReducer from "./plannerSlice"
+import trackerFiltersReducer from "./trackerFiltersSlice"
+import trackerReducer from "./trackerSlice"
 
 const store = configureStore({
     reducer:{
-        //tracker:trakcerReducer
+        trackedParks:trackerReducer,
+        trackerFilter:trackerFiltersReducer,
         plannedParks: plannerReducer
     }
 })
