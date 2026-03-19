@@ -10,6 +10,8 @@ parksInState, states, searchParks UI only functionality for cards on home page d
 3/14/2026: Savhanna - Updated parksInState to have a button that adds to the planner and changes to added to planner when selected. Worked on planner page, 
 ui to add parks to planner, notes, set priority, remove from planner button, and click on link of park to be directed to that park. UI needs feedback for any changes needed.
 
+3/14/26: Dristi- Added panner slice to save planned trips. Changed UI to change color of button based on if park was saved in planner or not. 
+
 3/16/2026: Savhanna - Added comments, removed unused button component, added campgrounds, events, places, tours, amenitites, and alerts to parkDetails page. Only displays if there is information provided by the api. 
 
 3/17/2026: Travis - Completed API requests and implemented info visualization with a focus on simplicity and usability.
