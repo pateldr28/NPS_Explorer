@@ -1,7 +1,38 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import OlympicNationalPark from "../images/OlympicNationalPark.jpg";
+import FeaturedVideo from "../components/featuredVideo";
+
+function pickRandomPark(parkVideos){
+
+  // console.log("This is park vids:", parkVideos)
+  const data = parkVideos.data
+
+  // console.log("==parks data:", data)
+
+  while(true){
+    const randomPark = data[Math.floor(Math.random() * (data.length))]
+
+    if(randomPark.relatedParks != []){
+      if(randomPark.relatedParks[0].parkCode  != undefined){
+        console.log("Random park:", randomPark)
+
+        return randomPark
+      }
+      
+    }
+  }
+
+
+}
+
 
 export default function Home() {
+
+  //get parks info with data within data field
+
+  const {parkVideos} = useLoaderData()
+
+
   return (
     <>
       <div className="space-y-8">
@@ -44,7 +75,11 @@ export default function Home() {
             Featured Park Videos
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow lg transition">
+            <FeaturedVideo randomPark={pickRandomPark(parkVideos)}/>
+            <FeaturedVideo randomPark={pickRandomPark(parkVideos)}/>
+            <FeaturedVideo randomPark={pickRandomPark(parkVideos)}/>
+
+            {/* <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow lg transition">
               <iframe src="https://plus.unsplash.com/premium_photo-1700182582584-7411ec09675e?q=80&w=1170&auto=format&fit=crop"
               className="h-65 w-full object-cover"/>
               <div className="p-4">
@@ -74,7 +109,7 @@ export default function Home() {
                   Vast canyons carved over millions of years by the Colorado River.
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
 
         </section>

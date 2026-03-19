@@ -19,6 +19,7 @@ import parkDetailsLoader from './loaders/parkDetailsLoader'
 import parkSearchLoader from './loaders/parkSearchLoader'
 import SearchParks from './routes/searchParks'
 import ErrorPage from './routes/errorPage'
+import multimediaVideosLoader from './loaders/multimediaVideosLoader'
 
 //Note: this is for example only feel free to change/remove 
 
@@ -31,7 +32,8 @@ const router = createBrowserRouter([
         children: [
             {
               index: true, 
-              Component: Home
+              Component: Home,
+              loader: multimediaVideosLoader
             },
             { 
               path: 'states',
