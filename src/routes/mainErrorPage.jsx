@@ -1,5 +1,6 @@
-import { useRouteError } from "react-router"
+import { Link, useRouteError } from "react-router"
 import RootLayout from "../RootLayout"
+
 
 
 
@@ -8,14 +9,19 @@ export default function MainErrorPage(){
 
     return(
     <RootLayout>
-        <div className="flex w-full">
-            <div className="flex flex-row gap-2 ">
+        <div className="flex flex-col w-full items-center">
+            <div className="flex flex-row gap-2 mt-20 ">
                 
                 <h1 className="text-4xl font-semibold text-[#2F4F3A]">Error: </h1>
                 <h2 className="text-stone-700 text-4xl font-semibold"> {error.status} { error.statusText || error.message}</h2>
 
                 {/* <h2 className="text-stone-700 max-w-2xl">We could not find a park that matches what you are looking for</h2> */}
             </div>
+            <Link to="/" 
+                className="inline-flex w-50 mt-15  items-center justify-center rounded-full bg-[#2F4F3A] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#26412f]"> 
+                Return Home 
+            </Link>
+            
         </div>
     </RootLayout>
     )
