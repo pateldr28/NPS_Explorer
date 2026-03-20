@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from "react-router-dom";
-import OlympicNationalPark from "../images/OlympicNationalPark.jpg";
 import FeaturedVideo from "../components/featuredVideo";
 
 function pickRandomPark(parkVideos){
