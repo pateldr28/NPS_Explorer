@@ -1,16 +1,21 @@
 import { trackedParks } from "./trackerSlice";
 import { filterValues, selectFilterValue } from "./trackerFiltersSlice";
+import { createSelector } from "@reduxjs/toolkit";
 
-export function filterTrackedParks(state){
-    const trackedParksValues = Object.values(trackedParks(state))
-    const activeFilter = selectFilterValue(state)
+export const filterTrackedParks = createSelector(
+  [trackedParks, selectFilterValue],
+  (trackedParksState, activeFilter) => {
+    const trackedParksValues = Object.values(trackedParksState)
 
-    switch(activeFilter){
-        case filterValues.showVisited:
-            return trackedParksValues.filter(trackedPark => trackedPark.visited)
-        case filterValues.showPending:
-            return trackedParksValues.filter(trackedPark => ! trackedPark.visited)
-        default:
-            return trackedParksValues
+    switch (activeFilter) {
+      case filterValues.showVisited:
+        return trackedParksValues.filter(trackedPark => trackedPark.visited)
+
+      case filterValues.showPending:
+        return trackedParksValues.filter(trackedPark => !trackedPark.visited)
+
+      default:
+        return trackedParksValues
     }
-}
+  }
+)
