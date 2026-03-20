@@ -5,7 +5,7 @@ import Card from "../components/card"
 export default function States() {
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-[#2F4F3A]">National Parks by State</h1>
+      <h1 className="text-3xl font-semibold text-[#2F4F3A]">National Parks by State</h1>
       <p className="text-stone-600 text-lg font-semibold">
         Select a state to explore parks across the country. 
       </p>

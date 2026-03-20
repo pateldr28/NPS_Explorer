@@ -22,7 +22,7 @@ export default function Header() {
               </h1>
               <p className="text-white">
                 Discover U.S. National Parks, explore by state, plan trips, 
-                and track the parks you&apos;ve visited.
+                and track the parks you've visited.
               </p>
             </div>
             <div className="relative w-full max-w-md">

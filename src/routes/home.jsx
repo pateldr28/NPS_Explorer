@@ -41,8 +41,9 @@ export default function Home() {
   return (
     <>
       <div className="space-y-8">
+        {/* Page intro */}
         <section>
-          <h2 className="text-2xl font-semibold text-[#2F4F3A]">
+          <h2 className="text-3xl font-semibold text-[#2F4F3A]">
             Start Exploring
           </h2>
           <p className="text-stone-700 max-w-2xl mt-4">
@@ -53,6 +54,7 @@ export default function Home() {
 
         <section className="grid gap-6 md:grid-cols-3">
 
+          {/* States card */}
           <Link to="/states" className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
             <h3 className="text-lg font-semibold text-[#2F4F3A] mb-2"> Explore States</h3>
             <p className="text-stone-600">
@@ -60,6 +62,7 @@ export default function Home() {
             </p>
           </Link>
 
+          {/* Planner card */}
           <Link to="/planner" className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
             <h3 className="text-lg font-semibold text-[#2F4F3A] mb-2"> Plan Trips</h3>
             <p className="text-stone-600">
@@ -67,6 +70,7 @@ export default function Home() {
             </p>
           </Link>
 
+          {/* Tracker card */}
           <Link to="/tracker" className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
             <h3 className="text-lg font-semibold text-[#2F4F3A] mb-2"> Track Visits</h3>
             <p className="text-stone-600">
@@ -74,7 +78,10 @@ export default function Home() {
             </p>
           </Link>
         </section>
+        {/* Line spacer */}
         <hr className="boarder-stone-300 my-12" />
+
+        {/* Featured videos*/}
         <section className="mt-20">
           <h2 className="text-2xl font-semibold text-[#2F4F3A] mb-6">
             Featured Park Videos
