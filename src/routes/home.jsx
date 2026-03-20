@@ -9,18 +9,23 @@ function pickRandomPark(parkVideos){
 
   // console.log("==parks data:", data)
 
-  while(true){
-    const randomPark = data[Math.floor(Math.random() * (data.length))]
+  const parksWithparkCode = data?.filter(park => park?.relatedParks?.[0]?.parkCode)
 
-    if(randomPark.relatedParks != []){
-      if(randomPark.relatedParks[0].parkCode  != undefined){
-        console.log("Random park:", randomPark)
+  // while(true){
+    
+    const randomPark = parksWithparkCode[Math.floor(Math.random() * (parksWithparkCode.length))]
 
-        return randomPark
-      }
+    return randomPark
+
+    // if(randomPark?.relatedParks != []){
+    //   if(randomPark.relatedParks[0].parkCode !== undefined){
+    //     console.log("Random park:", randomPark)
+
+    //     return randomPark
+    //   }
       
-    }
-  }
+    // }
+  // }
 
 
 }

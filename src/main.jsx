@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {Provider} from 'react-redux'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import './index.css'
 
 import RootLayout from './RootLayout'
@@ -20,6 +20,7 @@ import parkSearchLoader from './loaders/parkSearchLoader'
 import SearchParks from './routes/searchParks'
 import ErrorPage from './routes/errorPage'
 import multimediaVideosLoader from './loaders/multimediaVideosLoader'
+import MainErrorPage from './routes/mainErrorPage'
 
 //Note: this is for example only feel free to change/remove 
 
@@ -29,11 +30,13 @@ const router = createBrowserRouter([
         path: '/', 
         //main component
         Component: RootLayout,
+        ErrorBoundary: MainErrorPage,
         children: [
             {
               index: true, 
               Component: Home,
-              loader: multimediaVideosLoader
+              loader: multimediaVideosLoader,
+        
             },
             { 
               path: 'states',
@@ -65,6 +68,7 @@ const router = createBrowserRouter([
               Component: Tracker,
               // loader: trackerLoader
             }
+          
         ]
     }
 ])
